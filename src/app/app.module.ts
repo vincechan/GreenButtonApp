@@ -1,4 +1,6 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { BrowserModule } from '@angular/platform-browser';
+import { MatToolbarModule } from '@angular/material'
 import { NgModule } from '@angular/core';
 
 
@@ -10,9 +12,13 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserAnimationsModule,
+    BrowserModule,
+    MatToolbarModule,
   ],
-  providers: [],
+  providers: [
+    MatToolbarModule
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
