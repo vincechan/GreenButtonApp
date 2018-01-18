@@ -3,7 +3,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { ChartModule } from 'angular-highcharts';
-import { MatMenuModule } from '@angular/material';
+import { MatMenuModule, MatButtonToggleModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 
 describe('AppComponent', () => {
@@ -14,6 +14,7 @@ describe('AppComponent', () => {
       ],
       imports: [
         ChartModule,
+        MatButtonToggleModule,
         HttpClientModule,
         MatMenuModule
       ],
