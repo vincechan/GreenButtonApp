@@ -4,10 +4,10 @@ import { GbFileParserService } from './gb-file-parser.service';
 import { Chart } from 'angular-highcharts'
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
-import * as Highcharts from 'highcharts';
-import * as HC_exporting from 'highcharts/modules/exporting';
 import { MatButtonToggleChange } from '@angular/material';
-HC_exporting(Highcharts);
+import * as Highcharts from 'highcharts';
+declare var require: any;
+require('highcharts/modules/exporting')(Highcharts);
 
 @Component({
   providers: [GbFileParserService],
