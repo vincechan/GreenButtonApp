@@ -11,6 +11,10 @@
     "typeRoots": [
       "node_modules/@types"
     ],
+    "include": [
+      "src/**/*",
+      "node_modules/highcharts-angular/src/app/*"
+    ],
     "lib": [
       "es2017",
       "dom"

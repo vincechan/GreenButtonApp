@@ -4,6 +4,9 @@ import { GbFileParserService } from './gb-file-parser.service';
 import { Chart } from 'angular-highcharts'
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
+import * as Highcharts from 'highcharts';
+import * as HC_exporting from 'highcharts/modules/exporting';
+HC_exporting(Highcharts);
 
 @Component({
   providers: [GbFileParserService],
