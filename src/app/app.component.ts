@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import * as Highcharts from 'highcharts';
 import * as HC_exporting from 'highcharts/modules/exporting';
+import { MatButtonToggleChange } from '@angular/material';
 HC_exporting(Highcharts);
 
 @Component({
@@ -17,6 +18,8 @@ HC_exporting(Highcharts);
 export class AppComponent {
   title = 'app';
 
+  chartType = 'daily';
+  gbfile: GbFile;
   chart: Chart;
 
   constructor(
@@ -27,8 +30,8 @@ export class AppComponent {
   parseRemoteFile(url: string) {    
     this.http.get(url, { headers: new HttpHeaders({ 'Accept': 'application/xml' }), responseType: 'text' })
     .subscribe(xmlData => {
-      let gbfile = this.gbparser.parseXml(xmlData);
-      this.createChart(gbfile);
+      this.gbfile = this.gbparser.parseXml(xmlData);
+      this.createChart();
     });
   }
 
@@ -38,29 +41,40 @@ export class AppComponent {
 
     reader.onloadend = (e) => {
       let gbfile = this.gbparser.parseXml(reader.result);
-      console.log(gbfile);
-      this.createChart(gbfile);
+      this.createChart();
     }
     reader.readAsText(file);
   }
 
-  createChart(gbfile: GbFile) {
+  changeChartType($event: MatButtonToggleChange) {
+    this.chartType = $event.value;
+    this.createChart();
+  }
+
+  createChart() {
+    if (this.chartType == 'hourly') {
+      this.createHourlyChart();
+    }
+    else {
+      this.createDailyChart();
+    }
+  }
+
+  createDailyChart() {
     let dailyData = [];
-    for (let stat of gbfile.dailyStats) {
+    for (let stat of this.gbfile.dailyStats) {
       
       dailyData.push(
         [Date.UTC(stat.date.getFullYear(), stat.date.getMonth(), stat.date.getDate()), 
         stat.value]);
     }
-    console.log(gbfile.dailyStats);
-    console.log(dailyData);
 
     this.chart = new Chart({
       chart: {
         type: "column"
       },
       title: {
-        text: "Green Button Data at: " + gbfile.location
+        text: "Green Button Data at: " + this.gbfile.location
       },
       xAxis: {
         type: 'datetime',
@@ -76,6 +90,38 @@ export class AppComponent {
       series: [{
         name: 'energy usage series',
         data: dailyData
+      }]
+    });
+  }
+
+  createHourlyChart() {
+    let hourlyData = [];
+    for (let stat of this.gbfile.hourlyStats) {
+      hourlyData.push(
+        [stat.hour, 
+        stat.value]);
+    }
+    this.chart = new Chart({
+      chart: {
+        type: "column"
+      },
+      title: {
+        text: "Hourly Data: " + this.gbfile.location
+      },
+      xAxis: {
+        type: 'category',
+        title: {
+            text: 'Hour'
+        }
+      },
+      yAxis: {
+        title: {
+          text: "Usage"
+        },
+      },
+      series: [{
+        name: 'energy usage series',
+        data: hourlyData
       }]
     });
   }

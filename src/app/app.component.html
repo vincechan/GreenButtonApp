@@ -27,7 +27,15 @@
           View Sample Data
         </button>
       </mat-card>
-      <mat-card>
+      <mat-card *ngIf="chart">
+          <mat-button-toggle-group #group="matButtonToggleGroup" (change)="changeChartType($event)">
+              <mat-button-toggle value="daily" [checked]="chartType=='daily'">
+                Daily
+              </mat-button-toggle>
+              <mat-button-toggle value="hourly" [checked]="chartType=='hourly'">
+                Hourly
+              </mat-button-toggle>
+            </mat-button-toggle-group>
         <div [chart]="chart"></div>
       </mat-card>
     </mat-sidenav-content>

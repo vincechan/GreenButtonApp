@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { BrowserModule } from '@angular/platform-browser';
-import { MatToolbarModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSidenavModule, MatIconModule, MatListModule, MatMenuModule, MatCardModule } from '@angular/material'
+import { MatToolbarModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSidenavModule, MatIconModule, MatListModule, MatMenuModule, MatCardModule, MatButtonToggleModule } from '@angular/material'
 import { NgModule } from '@angular/core';
 import 'hammerjs';
 
@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
     ChartModule,
     HttpClientModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatCardModule,
     MatFormFieldModule,
     MatIconModule,

@@ -157,6 +157,8 @@ export class GbFile {
 
   dailyStats: GbDailyStat[];
 
+  hourlyStats: GbHourlyStat[];
+
   startDate: Date;
 
   endDate: Date;

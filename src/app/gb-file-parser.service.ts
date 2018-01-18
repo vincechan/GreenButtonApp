@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Parser} from 'xml2js';
 import {evalFirst, find} from 'xml2js-xpath';
 
-import {GbDailyStat, GbFile, GbTimePeriod} from './gb-types';
+import {GbDailyStat, GbFile, GbTimePeriod, GbHourlyStat} from './gb-types';
 
 
 @Injectable()
@@ -58,6 +58,11 @@ export class GbFileParserService {
             1000 +
         file.tzOffset * 1000);
 
+    file.hourlyStats = [];
+    for (let i = 0; i < 24; i++) {
+        file.hourlyStats.push(new GbHourlyStat(i + 1, 0));
+    }
+
     file.dailyStats = [];
     let lastDay: Date = new Date(0);
     let index = -1;
@@ -75,6 +80,12 @@ export class GbFileParserService {
         lastDay = currentDay;
       } else {
         file.dailyStats[index].value += value;
+      }
+
+      // we will only have hourly stat if the data point is less than an hour (3600 sec)
+      if (period.duration && period.duration[0] <= 3600) {
+        let hour = startDate.getHours();
+        file.hourlyStats[hour].value += value;
       }
     }
 
