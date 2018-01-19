@@ -2,5 +2,5 @@
 
 # GreenButtonApp
 
-This is a [Green Button Data](http://www.greenbuttondata.org/) visualizer built with Angular
+This is a [Green Button Data](http://www.greenbuttondata.org/) visualizer built with Angular. [Demo](https://vincechan.github.io/GreenButtonApp/)
 
