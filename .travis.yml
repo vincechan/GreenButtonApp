@@ -27,9 +27,9 @@ before_script:
 
 script: karma start karma.conf.js --single-run
 
--after_script:		
- -- ng build --prod --output-path gh-pages --base-href GreenButtonApp
- -- mv gh-pages/index.html gh-pages/404.html
+after_script:
+- ng build --prod --output-path gh-pages --base-href GreenButtonApp
+- mv gh-pages/index.html gh-pages/404.html
 
 deploy:
   provider: pages
