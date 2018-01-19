@@ -27,15 +27,11 @@ before_script:
 
 script: karma start karma.conf.js --single-run
 
-after_script:
-- ng build --prod --output-path gh-pages --base-href GreenButtonApp
-- mv gh-pages/index.html gh-pages/404.html
-
 deploy:
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
   keep-history: true
-  local-dir: gh-pages
+  local-dir: docs
   on:
     branch: master
