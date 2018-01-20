@@ -40,7 +40,7 @@ export class AppComponent {
     var reader: FileReader = new FileReader();
 
     reader.onloadend = (e) => {
-      let gbfile = this.gbparser.parseXml(reader.result);
+      this. gbfile = this.gbparser.parseXml(reader.result);
       this.createChart();
     }
     reader.readAsText(file);

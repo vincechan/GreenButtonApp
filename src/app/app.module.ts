@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatToolbarModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSidenavModule, MatIconModule, MatListModule, MatMenuModule, MatCardModule, MatButtonToggleModule } from '@angular/material'
 import { NgModule } from '@angular/core';
 import 'hammerjs';
-
+import { FlexLayoutModule } from '@angular/flex-layout'
 import { AppComponent } from './app.component';
 import { GbFileParserService } from './gb-file-parser.service';
 import { ChartModule } from 'angular-highcharts'
@@ -18,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     BrowserModule,
     ChartModule,
+    FlexLayoutModule,
     HttpClientModule,
     MatButtonModule,
     MatButtonToggleModule,

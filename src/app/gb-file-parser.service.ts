@@ -87,7 +87,21 @@ export class GbFileParserService {
         let hour = startDate.getHours();
         file.hourlyStats[hour].value += value;
       }
+
+      if (!file.interval) {
+          file.interval = period.duration[0];
+      }
     }
+
+    if (file.intervalReadings && file.intervalReadings[0] && 
+        file.intervalReadings[0].timePeriod && file.intervalReadings[0].timePeriod[0] &&
+        file.intervalReadings[0].timePeriod[0].duration && file.intervalReadings[0].timePeriod[0].duration[0]) {
+        file.interval = file.intervalReadings[0].timePeriod[0].duration[0];
+    }
+
+     file.period = Math.ceil( (file.endDate.getTime() - file.startDate.getTime()) / 1000 / 3600 / 24);
+
+    console.log(file.period);
 
     return file;
   }

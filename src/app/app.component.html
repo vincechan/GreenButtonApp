@@ -3,7 +3,7 @@
     <!-- <button mat-icon-button (click)="snav.toggle()">
       <mat-icon>menu</mat-icon>
     </button> -->
-    Green Button App
+    <mat-icon>battery_charging_full</mat-icon> Green Button App
   </mat-toolbar>
 
   <mat-sidenav-container>
@@ -27,17 +27,35 @@
           View Sample Data
         </button>
       </mat-card>
-      <mat-card *ngIf="chart">
-          <mat-button-toggle-group #group="matButtonToggleGroup" (change)="changeChartType($event)">
-              <mat-button-toggle value="daily" [checked]="chartType=='daily'">
-                Daily
-              </mat-button-toggle>
-              <mat-button-toggle value="hourly" [checked]="chartType=='hourly'">
-                Hourly
-              </mat-button-toggle>
-            </mat-button-toggle-group>
+      <mat-card *ngIf="gbfile">
+        <mat-button-toggle-group #group="matButtonToggleGroup" (change)="changeChartType($event)">
+          <mat-button-toggle value="daily" [checked]="chartType=='daily'">
+            Daily
+          </mat-button-toggle>
+          <mat-button-toggle value="hourly" [checked]="chartType=='hourly'">
+            Hourly
+          </mat-button-toggle>
+        </mat-button-toggle-group>
         <div [chart]="chart"></div>
       </mat-card>
+      <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="center" id="card-container" *ngIf="gbfile" style="margin-top:20px;">
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
+          <mat-card-subtitle>For Location</mat-card-subtitle>
+          <mat-card-content>{{ gbfile.location }} </mat-card-content>
+        </mat-card>
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
+          <mat-card-subtitle>Start Date</mat-card-subtitle>
+          <mat-card-content>{{ gbfile.startDate | date : "shortDate" }}</mat-card-content>
+        </mat-card>
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
+          <mat-card-subtitle>End Date</mat-card-subtitle>
+          <mat-card-content>{{ gbfile.endDate | date : "shortDate" }}</mat-card-content>
+        </mat-card>
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
+          <mat-card-subtitle>Interval</mat-card-subtitle>
+          <mat-card-content>{{ gbfile.interval / 60 }} minutes</mat-card-content>
+        </mat-card>
+      </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

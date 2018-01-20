@@ -164,6 +164,17 @@ export class GbFile {
   endDate: Date;
 
   /**
+   * Data interval in seconds. This specifies the granularity of the data. The
+   * smaller the interval, the more granualr the data.
+   */
+  interval: number;
+
+  /**
+   * Data period. This specifies the number of days.
+   */
+  period: number;
+
+  /**
    * Rule to calculate end of daylight savings time in the current year.  Result
    * of dstEndRule must be greater than result of dstStartRule.
    */
