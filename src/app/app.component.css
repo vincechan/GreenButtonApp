@@ -19,3 +19,26 @@ mat-sidenav-container mat-sidenav {
 .info-card {
     margin: 0px 10px 20px 10px;
 }
+
+.info-card.mat-card {
+    padding: 0px 0px 12px 0px;
+}
+
+.info-card header {
+    display: block;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, .54);
+    background: rgba(0, 0, 0, .03);
+}
+
+.info-card header mat-icon {
+    font-size: 36px;
+}
+
+.info-card content {
+    display: block;
+    padding: 12px;
+    font-size: 14px;
+}

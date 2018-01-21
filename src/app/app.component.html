@@ -40,20 +40,20 @@
       </mat-card>
       <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="center" id="card-container" *ngIf="gbfile" style="margin-top:20px;">
         <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
-          <mat-card-subtitle>For Location</mat-card-subtitle>
-          <mat-card-content>{{ gbfile.location }} </mat-card-content>
+          <header>Location</header>
+          <content>{{ gbfile.location }}</content>
         </mat-card>
         <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
-          <mat-card-subtitle>Start Date</mat-card-subtitle>
-          <mat-card-content>{{ gbfile.startDate | date : "shortDate" }}</mat-card-content>
+          <header>Start Date</header>
+          <content>{{ gbfile.startDate | date : "shortDate" }}</content>
         </mat-card>
         <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
-          <mat-card-subtitle>End Date</mat-card-subtitle>
-          <mat-card-content>{{ gbfile.endDate | date : "shortDate" }}</mat-card-content>
+          <header>End Date</header>
+          <content>{{ gbfile.endDate | date : "shortDate" }}</content>
         </mat-card>
         <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
-          <mat-card-subtitle>Interval</mat-card-subtitle>
-          <mat-card-content>{{ gbfile.interval / 60 }} minutes</mat-card-content>
+          <header>Interval</header>
+          <content>{{ gbfile.interval / 60 }} minutes</content>
         </mat-card>
       </div>
     </mat-sidenav-content>
