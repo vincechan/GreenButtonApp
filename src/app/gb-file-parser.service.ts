@@ -35,28 +35,21 @@ export class GbFileParserService {
 
       file.location = evalFirst(json, '//feed/entry/title', true);
 
-      console.log(json);
-      console.log(find(json, '//atom:feed'));
-      console.log(file);
-
       file.intervalReadings =
           find(json, '//feed/entry/content/IntervalBlock/IntervalReading');
     });
+
+    if (file.intervalReadings == null || file.intervalReadings.length == 0) {
+        return  file;
+    }
 
     // ensure the reading is sorted by start time in asc order
     file.intervalReadings.sort(
         (a, b) => a.timePeriod[0].start[0] - b.timePeriod[0].start[0]);
 
-    file.startDate = new Date(
-        file.intervalReadings[0].timePeriod[0].start[0] * 1000 +
-        file.tzOffset * 1000);
+    file.startDate = this.adjustTimezone(file, file.intervalReadings[0].timePeriod[0].start[0]);
 
-    file.endDate = new Date(
-        file.intervalReadings[file.intervalReadings.length - 1]
-                .timePeriod[0]
-                .start[0] *
-            1000 +
-        file.tzOffset * 1000);
+    file.endDate = this.adjustTimezone(file, file.intervalReadings[file.intervalReadings.length - 1].timePeriod[0].start[0]);
 
     file.hourlyStats = [];
     for (let i = 0; i < 24; i++) {
@@ -101,8 +94,14 @@ export class GbFileParserService {
 
      file.period = Math.ceil( (file.endDate.getTime() - file.startDate.getTime()) / 1000 / 3600 / 24);
 
-    console.log(file.period);
+     console.log(file);
 
     return file;
+  }
+
+
+  adjustTimezone(file: GbFile, unixTime: number) : Date {
+    let timezoneAdjustment: number = file.tzOffset ? file.tzOffset * 1000 : 0;
+    return new Date(unixTime * 1000 + timezoneAdjustment);
   }
 }
