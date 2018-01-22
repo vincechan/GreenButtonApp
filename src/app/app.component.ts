@@ -74,7 +74,7 @@ export class AppComponent {
         type: "column"
       },
       title: {
-        text: "Green Button Data at: " + this.gbfile.location
+        text: "Daily Energy Usage"
       },
       xAxis: {
         type: 'datetime',
@@ -84,11 +84,11 @@ export class AppComponent {
       },
       yAxis: {
         title: {
-          text: "Usage"
+          text: "Energy Usage"
         },
       },
       series: [{
-        name: 'energy usage series',
+        name: 'energy usage',
         data: dailyData
       }]
     });
@@ -106,7 +106,7 @@ export class AppComponent {
         type: "column"
       },
       title: {
-        text: "Hourly Data: " + this.gbfile.location
+        text: "Hourly Energy Usage"
       },
       xAxis: {
         type: 'category',
@@ -116,11 +116,11 @@ export class AppComponent {
       },
       yAxis: {
         title: {
-          text: "Usage"
+          text: "Energy Usage"
         },
       },
       series: [{
-        name: 'energy usage series',
+        name: 'energy usage',
         data: hourlyData
       }]
     });
