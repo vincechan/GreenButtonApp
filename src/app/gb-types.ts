@@ -90,7 +90,6 @@ export enum Uom {
 export class GbTimePeriod {
   duration: number[];
   start: number[];
-  startDate: Date;
 }
 
 /**
@@ -118,11 +117,11 @@ export class GbIntervalReading {
 }
 
 export class GbDailyStat {
-  constructor(public date: Date, public value: number) {}
+  constructor(public date: Date, public value: number, public cost: number) {}
 }
 
 export class GbHourlyStat {
-  constructor(public hour: number, public value: number) {}
+  constructor(public hour: number, public value: number, public cost: number) {}
 }
 
 /**
@@ -151,13 +150,13 @@ export class GbFile {
   /**
    * Location
    */
-  location: string;
+  location: string = "";
 
-  intervalReadings: GbIntervalReading[];
+  intervalReadings: GbIntervalReading[] = [];
 
-  dailyStats: GbDailyStat[];
+  dailyStats: GbDailyStat[] = [];
 
-  hourlyStats: GbHourlyStat[];
+  hourlyStats: GbHourlyStat[] = [];
 
   startDate: Date;
 
@@ -167,12 +166,12 @@ export class GbFile {
    * Data interval in seconds. This specifies the granularity of the data. The
    * smaller the interval, the more granualr the data.
    */
-  interval: number;
+  interval: number = 0;
 
   /**
    * Data period. This specifies the number of days.
    */
-  period: number;
+  period: number = 0;
 
   /**
    * Rule to calculate end of daylight savings time in the current year.  Result
@@ -183,7 +182,7 @@ export class GbFile {
   /**
    * Daylight savings time offset from local standard time.
    */
-  dstOffset: number;
+  dstOffset: number = 0;
 
   /**
    * Rule to calculate start of daylight savings time in the current year.
@@ -195,5 +194,11 @@ export class GbFile {
    * Local time zone offset from UTCTime. Does not include any daylight savings
    * time offsets.
    */
-  tzOffset: number;
+  tzOffset: number = 0;
+
+  totalCost: number = 0;
+
+  totalEnergy: number = 0;
+
+  totalDurationInSec: number = 0;
 }

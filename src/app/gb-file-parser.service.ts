@@ -49,7 +49,7 @@ export class GbFileParserService {
 
     file.hourlyStats = [];
     for (let i = 0; i < 24; i++) {
-      file.hourlyStats.push(new GbHourlyStat(i + 1, 0));
+      file.hourlyStats.push(new GbHourlyStat(i + 1, 0, 0));
     }
 
     file.dailyStats = [];
@@ -64,31 +64,29 @@ export class GbFileParserService {
       let startDay: Date = new Date(
           startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
       if (startDay.getTime() != lastDay.getTime()) {
-        file.dailyStats.push(new GbDailyStat(startDay, value));
+        file.dailyStats.push(new GbDailyStat(startDay, value, cost));
         index++;
         lastDay = startDay;
       } else {
         file.dailyStats[index].value += value;
-      }
-
-      // we will only have hourly stat if the data point is less than an hour
-      // (3600 sec)
-      if (period.duration && period.duration[0] <= 3600) {
-        let hour = startDate.getHours();
-        file.hourlyStats[hour].value += value;
+        file.dailyStats[index].cost += cost;
       }
 
       if (!file.interval) {
         file.interval = period.duration[0];
       }
-    }
 
-    if (file.intervalReadings && file.intervalReadings[0] &&
-        file.intervalReadings[0].timePeriod &&
-        file.intervalReadings[0].timePeriod[0] &&
-        file.intervalReadings[0].timePeriod[0].duration &&
-        file.intervalReadings[0].timePeriod[0].duration[0]) {
-      file.interval = file.intervalReadings[0].timePeriod[0].duration[0];
+      // we will only have hourly stat if the data point is less than an hour
+      // (3600 sec)
+      if (file.interval <= 3600) {
+        let hour = startDate.getHours();
+        file.hourlyStats[hour].value += value;
+        file.hourlyStats[hour].cost += value;
+      }
+
+      file.totalCost += cost;
+      file.totalEnergy += value;
+      //file.totalDurationInSec += parseInt(period.duration[0]);
     }
 
     file.startDate = file.dailyStats[0].date;

@@ -55,6 +55,14 @@
           <header>Interval</header>
           <content>{{ gbfile.interval / 60 }} minutes</content>
         </mat-card>
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
+          <header>Total Cost</header>
+          <content>{{ gbfile.totalCost }} </content>
+        </mat-card>
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
+          <header>Total Energy Usage</header>
+          <content>{{ gbfile.totalEnergy }} </content>
+        </mat-card>
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
