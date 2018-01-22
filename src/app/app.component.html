@@ -57,11 +57,19 @@
         </mat-card>
         <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
           <header>Total Cost</header>
-          <content>{{ gbfile.totalCost }} </content>
+          <content>{{ gbfile.totalCost / 100000 | currency }} </content>
         </mat-card>
         <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
           <header>Total Energy Usage</header>
-          <content>{{ gbfile.totalEnergy }} </content>
+          <content>{{ gbfile.totalUsage }} </content>
+        </mat-card>
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
+          <header>Avg Cost Per Hour</header>
+          <content>{{ gbfile.avgCostPerHour / 100000 | currency }} </content>
+        </mat-card>
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
+          <header>Avg Usage Per Hour</header>
+          <content>{{ gbfile.avgUsagePerHour }} </content>
         </mat-card>
       </div>
     </mat-sidenav-content>

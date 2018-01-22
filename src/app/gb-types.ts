@@ -198,7 +198,11 @@ export class GbFile {
 
   totalCost: number = 0;
 
-  totalEnergy: number = 0;
+  totalUsage: number = 0;
 
-  totalDurationInSec: number = 0;
+  totalDurationInHours: number = 0;
+
+  avgCostPerHour: number = 0;
+
+  avgUsagePerHour: number = 0;
 }

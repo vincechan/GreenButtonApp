@@ -85,12 +85,20 @@ export class GbFileParserService {
       }
 
       file.totalCost += cost;
-      file.totalEnergy += value;
-      //file.totalDurationInSec += parseInt(period.duration[0]);
+      file.totalUsage += value;
     }
 
     file.startDate = file.dailyStats[0].date;
     file.endDate = file.dailyStats[file.dailyStats.length - 1].date;
+
+    
+    file.totalDurationInHours = Math.round((file.endDate.valueOf() - file.startDate.valueOf()) / 1000 / 60 / 60);
+    console.log(file.totalDurationInHours);
+    if (file.totalDurationInHours > 0) {
+        file.avgCostPerHour = Math.round(file.totalCost / file.totalDurationInHours);
+        file.avgUsagePerHour = Math.round(file.totalUsage / file.totalDurationInHours);
+    }
+    
 
     console.log(file);
 
