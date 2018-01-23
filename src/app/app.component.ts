@@ -1,11 +1,13 @@
-import { GbDailyStat, GbFile, Uom } from './gb-types';
-import { Component } from '@angular/core';
-import { GbFileParserService } from './gb-file-parser.service';
-import { Chart } from 'angular-highcharts'
-import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
-import { MatButtonToggleChange } from '@angular/material';
+import {HttpClient} from '@angular/common/http';
+import {HttpHeaders} from '@angular/common/http';
+import {Component} from '@angular/core';
+import {MatButtonToggleChange} from '@angular/material';
+import {Chart} from 'angular-highcharts'
 import * as Highcharts from 'highcharts';
+
+import {GbFileParserService} from './gb-file-parser.service';
+import {GbDailyStat, GbFile, Uom} from './gb-types';
+
 declare var require: any;
 require('highcharts/modules/exporting')(Highcharts);
 
@@ -23,16 +25,20 @@ export class AppComponent {
   chart: Chart;
 
   constructor(
-    private gbparser: GbFileParserService,
-    private http: HttpClient,
+      private gbparser: GbFileParserService,
+      private http: HttpClient,
   ) {}
 
-  parseRemoteFile(url: string) {    
-    this.http.get(url, { headers: new HttpHeaders({ 'Accept': 'application/xml' }), responseType: 'text' })
-    .subscribe(xmlData => {
-      this.gbfile = this.gbparser.parseXml(xmlData);
-      this.createChart();
-    });
+  parseRemoteFile(url: string) {
+    this.http
+        .get(url, {
+          headers: new HttpHeaders({'Accept': 'application/xml'}),
+          responseType: 'text'
+        })
+        .subscribe(xmlData => {
+          this.gbfile = this.gbparser.parseXml(xmlData);
+          this.createChart();
+        });
   }
 
   parseFile($event) {
@@ -40,10 +46,9 @@ export class AppComponent {
     var reader: FileReader = new FileReader();
 
     reader.onloadend = (e) => {
-      this. gbfile = this.gbparser.parseXml(reader.result);
+      this.gbfile = this.gbparser.parseXml(reader.result);
       this.createChart();
-    }
-    reader.readAsText(file);
+    } reader.readAsText(file);
   }
 
   changeChartType($event: MatButtonToggleChange) {
@@ -54,75 +59,91 @@ export class AppComponent {
   createChart() {
     if (this.chartType == 'hourly') {
       this.createHourlyChart();
-    }
-    else {
+    } else {
       this.createDailyChart();
     }
   }
 
   createDailyChart() {
-    let dailyData = [];
+    let dailyUsage = [];
+    let dailyCost = [];
     for (let stat of this.gbfile.dailyStats) {
-      
-      dailyData.push(
-        [Date.UTC(stat.date.getFullYear(), stat.date.getMonth(), stat.date.getDate()), 
-        stat.value]);
+      dailyUsage.push([
+        Date.UTC(
+            stat.date.getFullYear(), stat.date.getMonth(), stat.date.getDate()),
+        stat.value
+      ]);
+      dailyCost.push([
+        Date.UTC(
+            stat.date.getFullYear(), stat.date.getMonth(), stat.date.getDate()),
+        (stat.cost / 100000)
+      ]);
     }
 
     this.chart = new Chart({
-      chart: {
-        type: "column"
-      },
-      title: {
-        text: "Daily Energy Usage"
-      },
-      xAxis: {
-        type: 'datetime',
-        title: {
-            text: 'Date'
-        }
-      },
-      yAxis: {
-        title: {
-          text: "Energy Usage"
+      chart: {type: 'column'},
+      title: {text: 'Daily Energy Usage'},
+      xAxis: {type: 'datetime', title: {text: 'Date'}},
+      yAxis: [
+        {
+          title: {text: 'Energy Usage'},
+          labels: {
+            formatter: function() {
+              return (this.value / 1000) + ' kilowatt-hours';
+            }
+          },
         },
-      },
-      series: [{
-        name: 'energy usage',
-        data: dailyData
-      }]
+        {
+          title: {text: 'Cost'},
+          labels: {
+            formatter: function() {
+              return '$' + (this.value).toFixed(2);
+            }
+          },
+          opposite: true
+        },
+      ],
+      series: [
+        {name: 'energy usage', type: 'column', data: dailyUsage},
+        {name: 'cost', type: 'spline', yAxis: 1, data: dailyCost}
+      ]
     });
   }
 
   createHourlyChart() {
-    let hourlyData = [];
+    let hourlyUsage = [];
+    let hourlyCost = [];
     for (let stat of this.gbfile.hourlyStats) {
-      hourlyData.push(
-        [stat.hour, 
-        stat.value]);
+      hourlyUsage.push([stat.hour, stat.value]);
+      hourlyCost.push([stat.hour, (stat.cost / 100000)]);
     }
     this.chart = new Chart({
-      chart: {
-        type: "column"
-      },
-      title: {
-        text: "Hourly Energy Usage"
-      },
-      xAxis: {
-        type: 'category',
-        title: {
-            text: 'Hour'
-        }
-      },
-      yAxis: {
-        title: {
-          text: "Energy Usage"
+      chart: {type: 'column'},
+      title: {text: 'Hourly Energy Usage'},
+      xAxis: {type: 'category', title: {text: 'Hour'}},
+      yAxis: [
+        {
+          title: {text: 'Energy Usage'},
+          labels: {
+            formatter: function() {
+              return (this.value / 1000) + ' kilowatt-hours';
+            }
+          },
         },
-      },
-      series: [{
-        name: 'energy usage',
-        data: hourlyData
-      }]
+        {
+          title: {text: 'Cost'},
+          labels: {
+            formatter: function() {
+              return '$' + (this.value).toFixed(2);
+            }
+          },
+          opposite: true
+        }
+      ],
+      series: [
+        {name: 'energy usage', type: 'column', data: hourlyUsage},
+        {name: 'cost', type: 'spline', yAxis: 1, data: hourlyCost}
+      ],
     });
   }
 }

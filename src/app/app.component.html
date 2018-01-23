@@ -38,36 +38,36 @@
         </mat-button-toggle-group>
         <div [chart]="chart"></div>
       </mat-card>
-      <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="center" id="card-container" *ngIf="gbfile" style="margin-top:20px;">
-        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
+      <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-between" id="card-container" *ngIf="gbfile" style="margin-top:20px;">
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
           <header>Location</header>
           <content>{{ gbfile.location }}</content>
         </mat-card>
-        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
           <header>Start Date</header>
           <content>{{ gbfile.startDate | date : "shortDate" }}</content>
         </mat-card>
-        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
           <header>End Date</header>
           <content>{{ gbfile.endDate | date : "shortDate" }}</content>
         </mat-card>
-        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
           <header>Interval</header>
           <content>{{ gbfile.interval / 60 }} minutes</content>
         </mat-card>
-        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
           <header>Total Cost</header>
           <content>{{ gbfile.totalCost / 100000 | currency }} </content>
         </mat-card>
-        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
           <header>Total Energy Usage</header>
           <content>{{ gbfile.totalUsage }} </content>
         </mat-card>
-        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
           <header>Avg Cost Per Hour</header>
           <content>{{ gbfile.avgCostPerHour / 100000 | currency }} </content>
         </mat-card>
-        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="20">
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
           <header>Avg Usage Per Hour</header>
           <content>{{ gbfile.avgUsagePerHour }} </content>
         </mat-card>
