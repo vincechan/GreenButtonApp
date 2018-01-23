@@ -48,7 +48,8 @@ export class AppComponent {
     reader.onloadend = (e) => {
       this.gbfile = this.gbparser.parseXml(reader.result);
       this.createChart();
-    } reader.readAsText(file);
+    } 
+    reader.readAsText(file);
   }
 
   changeChartType($event: MatButtonToggleChange) {
