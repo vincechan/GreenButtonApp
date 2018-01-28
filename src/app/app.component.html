@@ -31,46 +31,42 @@
         <mat-button-toggle-group #group="matButtonToggleGroup" (change)="changeChartType($event)">
           <mat-button-toggle value="daily" [checked]="chartType=='daily'">
             Daily
+            <mat-icon *ngIf="chartType=='daily'">check_circle</mat-icon>
           </mat-button-toggle>
           <mat-button-toggle value="hourly" [checked]="chartType=='hourly'">
             Hourly
+            <mat-icon *ngIf="chartType=='hourly'">check_circle</mat-icon>
           </mat-button-toggle>
         </mat-button-toggle-group>
         <div [chart]="chart"></div>
       </mat-card>
       <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-between" id="card-container" *ngIf="gbfile" style="margin-top:20px;">
         <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
-          <header>Location</header>
+          <header><mat-icon>location_on</mat-icon> Location</header>
           <content>{{ gbfile.location }}</content>
         </mat-card>
         <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
-          <header>Start Date</header>
-          <content>{{ gbfile.startDate | date : "shortDate" }}</content>
+          <header><mat-icon>date_range</mat-icon>Date Range</header>
+          <content>{{ gbfile.startDate | date : "mediumDate" }} - {{ gbfile.endDate | date : "mediumDate" }}</content>
+        </mat-card>
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23" color="primary">
+            <header><mat-icon>power</mat-icon>Energy Usage</header>
+            <content>
+              <p>Total: {{ gbfile.totalUsage }} </p>
+              <p>Avg Per Hour: {{ gbfile.avgUsagePerHour }}</p>
+            </content>
+          </mat-card>
+        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
+          <header><mat-icon>attach_money</mat-icon>Cost</header>
+          <content>
+            <p>Total: {{ gbfile.totalCost / 100000 | currency }} </p>
+            <p>Avg Per Hour: {{ gbfile.avgCostPerHour / 100000 | currency }} </p>
+          </content>
         </mat-card>
         <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
-          <header>End Date</header>
-          <content>{{ gbfile.endDate | date : "shortDate" }}</content>
-        </mat-card>
-        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
-          <header>Interval</header>
-          <content>{{ gbfile.interval / 60 }} minutes</content>
-        </mat-card>
-        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
-          <header>Total Cost</header>
-          <content>{{ gbfile.totalCost / 100000 | currency }} </content>
-        </mat-card>
-        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
-          <header>Total Energy Usage</header>
-          <content>{{ gbfile.totalUsage }} </content>
-        </mat-card>
-        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
-          <header>Avg Cost Per Hour</header>
-          <content>{{ gbfile.avgCostPerHour / 100000 | currency }} </content>
-        </mat-card>
-        <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
-          <header>Avg Usage Per Hour</header>
-          <content>{{ gbfile.avgUsagePerHour }} </content>
-        </mat-card>
+            <header>Interval</header>
+            <content>{{ gbfile.interval / 60 }} minutes</content>
+          </mat-card>
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
