@@ -48,7 +48,7 @@ export class AppComponent {
     reader.onloadend = (e) => {
       this.gbfile = this.gbparser.parseXml(reader.result);
       this.createChart();
-    } 
+    };
     reader.readAsText(file);
   }
 
@@ -66,6 +66,8 @@ export class AppComponent {
   }
 
   createDailyChart() {
+    let thatFile = this.gbfile;
+
     let dailyUsage = [];
     let dailyCost = [];
     for (let stat of this.gbfile.dailyStats) {
@@ -77,20 +79,32 @@ export class AppComponent {
       dailyCost.push([
         Date.UTC(
             stat.date.getFullYear(), stat.date.getMonth(), stat.date.getDate()),
-        (stat.cost / 100000)
+        stat.cost
       ]);
     }
 
     this.chart = new Chart({
       chart: {type: 'column'},
       title: {text: 'Daily Energy Usage'},
+      tooltip: {
+        formatter: function() {
+          let tt = '<b>' + Highcharts.dateFormat('%a, %b %e, %Y', this.x) +'</b><br/>';
+          tt += 'Usage: ' + this.points[0].y.toFixed(1) + thatFile.usageUnit + '<br/>';
+          if (thatFile.hasCostData) {
+            tt += 'Cost: ' + thatFile.costUnit + this.points[1].y.toFixed(2) + '<br/>';
+          }
+           return tt;
+        },
+        shared: true,
+        useHTML: true
+      },
       xAxis: {type: 'datetime', title: {text: 'Date'}},
       yAxis: [
         {
           title: {text: 'Energy Usage'},
           labels: {
             formatter: function() {
-              return (this.value / 1000) + ' kilowatt-hours';
+              return (this.value).toFixed(1) + ' ' + thatFile.usageUnit;
             }
           },
         },
@@ -98,36 +112,68 @@ export class AppComponent {
           title: {text: 'Cost'},
           labels: {
             formatter: function() {
-              return '$' + (this.value).toFixed(2);
+              return thatFile.costUnit + (this.value).toFixed(2);
             }
           },
+          visible: thatFile.hasCostData,
           opposite: true
         },
       ],
       series: [
         {name: 'energy usage', type: 'column', data: dailyUsage},
-        {name: 'cost', type: 'spline', yAxis: 1, data: dailyCost}
+        {name: 'cost', type: 'spline', yAxis: 1, data: dailyCost, visible: thatFile.hasCostData }
       ]
     });
   }
 
   createHourlyChart() {
+    let thatFile = this.gbfile;
+    let formatHour = h => {
+      if (h == 0 || h == 24) {
+        return '12 AM';
+      }
+      else if (h < 12) {
+        return (h) + 'AM';
+      }
+      else if (h == 12) {
+        return '12 PM';
+      }
+      else {
+        return (h % 12) + 'PM';
+      }
+    };
     let hourlyUsage = [];
     let hourlyCost = [];
     for (let stat of this.gbfile.hourlyStats) {
       hourlyUsage.push([stat.hour, stat.value]);
-      hourlyCost.push([stat.hour, (stat.cost / 100000)]);
+      hourlyCost.push([stat.hour, stat.cost]);
     }
     this.chart = new Chart({
       chart: {type: 'column'},
       title: {text: 'Hourly Energy Usage'},
-      xAxis: {type: 'category', title: {text: 'Hour'}},
+      tooltip: {
+        formatter: function() {
+          let tt = '<b>' + 'From ' + formatHour(this.x) + ' to ' + formatHour(this.x + 1) +'</b><br/>';
+          tt += 'Usage: ' + this.points[0].y.toFixed(1) + thatFile.usageUnit + '<br/>';
+          if (thatFile.hasCostData) {
+            tt += 'Cost: ' + thatFile.costUnit + this.points[1].y.toFixed(2) + '<br/>';
+          }
+           return tt;
+        },
+        shared: true,
+        useHTML: true
+      },
+      xAxis: {type: 'category', title: {text: 'Hour'}, labels: {
+        formatter: function() {
+          return formatHour(this.value);
+        }
+      }},
       yAxis: [
         {
           title: {text: 'Energy Usage'},
           labels: {
             formatter: function() {
-              return (this.value / 1000) + ' kilowatt-hours';
+              return (this.value).toFixed(1) + ' ' + thatFile.usageUnit;
             }
           },
         },
@@ -135,15 +181,16 @@ export class AppComponent {
           title: {text: 'Cost'},
           labels: {
             formatter: function() {
-              return '$' + (this.value).toFixed(2);
+              return thatFile.costUnit + (this.value).toFixed(2);
             }
           },
+          visible: thatFile.hasCostData,
           opposite: true
         }
       ],
       series: [
         {name: 'energy usage', type: 'column', data: hourlyUsage},
-        {name: 'cost', type: 'spline', yAxis: 1, data: hourlyCost}
+        {name: 'cost', type: 'spline', yAxis: 1, data: hourlyCost, visible: thatFile.hasCostData}
       ],
     });
   }

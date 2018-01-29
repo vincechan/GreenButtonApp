@@ -102,12 +102,12 @@ export class GbIntervalReading {
    * the currency specified in the ReadingType for this reading. (e.g., 840 =
    * USD, US dollar)
    */
-  cost: number;
+  cost: number[];
 
   /**
    * Value in units specified by ReadingType
    */
-  value: number;
+  value: number[];
 
   /**
    * The date time and duration of a reading. If not specified, readings for
@@ -205,4 +205,19 @@ export class GbFile {
   avgCostPerHour: number = 0;
 
   avgUsagePerHour: number = 0;
+
+  costUnit = "$";
+
+  costUnitMultiplier = 1/100000;
+
+  usageUnit = "kW⋅h";
+
+  usageUnitMultiplier = 1/1000;
+
+  isValid: boolean = false;
+
+  hasCostData: boolean = false;
+
+  hasUsageData: boolean = false;
+
 }

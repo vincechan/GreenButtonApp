@@ -43,3 +43,8 @@ mat-sidenav-container mat-sidenav {
     padding: 12px;
     font-size: 14px;
 }
+
+.info-card content mat-icon {
+    font-size: 16px;
+    vertical-align: top;
+}

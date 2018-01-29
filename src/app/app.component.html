@@ -52,15 +52,20 @@
         <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23" color="primary">
             <header><mat-icon>power</mat-icon>Energy Usage</header>
             <content>
-              <p>Total: {{ gbfile.totalUsage }} </p>
-              <p>Avg Per Hour: {{ gbfile.avgUsagePerHour }}</p>
+              <p>Total: {{ gbfile.totalUsage | number : '1.0-1' }} {{ gbfile.usageUnit }} </p>
+              <p>Avg Per Hour: {{ gbfile.avgUsagePerHour | number: '1.2-2' }} {{ gbfile.usageUnit }}</p>
             </content>
           </mat-card>
         <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
           <header><mat-icon>attach_money</mat-icon>Cost</header>
           <content>
-            <p>Total: {{ gbfile.totalCost / 100000 | currency }} </p>
-            <p>Avg Per Hour: {{ gbfile.avgCostPerHour / 100000 | currency }} </p>
+            <div *ngIf="gbfile.hasCostData">
+                <p>Total: {{ gbfile.totalCost | currency }} </p>
+                <p>Avg Per Hour: {{ gbfile.avgCostPerHour | currency }} </p>
+            </div>
+            <div *ngIf="gbfile.hasCostData == false" style="color: red;">
+              <mat-icon>error</mat-icon>file does not contain any cost data.
+            </div>
           </content>
         </mat-card>
         <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
