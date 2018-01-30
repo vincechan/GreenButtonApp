@@ -137,8 +137,31 @@ export class GbFileParserService {
     }
   }
 
+  /**
+   * Adjust a unix time from green button file timezone to local timezone in the browser. 
+   * There are 3 relevant timezone:
+   *   timezone in green button file (where data is collected)
+   *   timezone in UTC
+   *   timezone in local browser
+   * We will convert from green button file timezone to UTC, then from UTC to local timezone in browser
+   * 
+   * @param file - the green button file that has timezone information
+   * @param unixTime - the unix time that needs adjustment
+   */
   adjustTimezone(file: GbFile, unixTime: number): Date {
-    let timezoneAdjustment: number = file.tzOffset ? file.tzOffset * 1000 : 0;
-    return new Date(unixTime * 1000 + timezoneAdjustment);
+    // get the timezone adjustment between local (in browser) to UTC
+    // getTimezoneOffset() returns the offset between UTC to local in minutes. 
+    // e.g. for UTC+10, -600 will be returned
+    // we need to * 60 * 1000 to convert to milliseconds
+    // we need to * -1 to reverse the conversation
+    let localTimezoneAdjustment = (new Date()).getTimezoneOffset() * 60 * 1000 * -1;
+
+    // get the timezone adjustment between green button file timezone to UTC
+    let dataTimezoneAdjustment: number = file.tzOffset ? file.tzOffset * 1000 : 0;
+
+    // perform adjustment and return the result
+    // + dataTimezoneAdjustment to convert green button timezone to UTC
+    // - localTimezoneAdjustment to convert UTC to local timezone in browser
+    return new Date(unixTime * 1000 + dataTimezoneAdjustment - localTimezoneAdjustment);
   }
 }
