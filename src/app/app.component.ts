@@ -107,6 +107,7 @@ export class AppComponent {
               return (this.value).toFixed(1) + ' ' + thatFile.usageUnit;
             }
           },
+          min: 0
         },
         {
           title: {text: 'Cost'},
@@ -115,6 +116,7 @@ export class AppComponent {
               return thatFile.costUnit + (this.value).toFixed(2);
             }
           },
+          min: 0,
           visible: thatFile.hasCostData,
           opposite: true
         },
@@ -176,6 +178,7 @@ export class AppComponent {
               return (this.value).toFixed(1) + ' ' + thatFile.usageUnit;
             }
           },
+          min: 0
         },
         {
           title: {text: 'Cost'},
@@ -184,6 +187,7 @@ export class AppComponent {
               return thatFile.costUnit + (this.value).toFixed(2);
             }
           },
+          min: 0,
           visible: thatFile.hasCostData,
           opposite: true
         }
