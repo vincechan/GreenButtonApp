@@ -1,10 +1,25 @@
 <div class="app-container">
-  <mat-toolbar color="primary">
-    <!-- <button mat-icon-button (click)="snav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button> -->
-    <mat-icon>battery_charging_full</mat-icon> Green Button App
-  </mat-toolbar>
+
+  <div class="app-header">
+    <mat-toolbar color="primary">
+      <button mat-button routerLink="/">
+        <mat-icon>battery_charging_full</mat-icon>
+        <span style='font: 500 20px/32px Roboto,"Helvetica Neue",sans-serif;'>Green Button App</span>
+      </button>
+      <span class="fill-remaining-space"></span>
+      <div fxLayout="row" fxShow="false" fxShow.gt-sm>
+        <a mat-button href="https://github.com/vincechan/GreenButtonApp" target="_blank">View On Github</a>
+      </div>
+      <button mat-button [mat-menu-trigger-for]="appMenu" fxHide="false" fxHide.gt-sm>
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
+        <button mat-menu-item>
+          <a mat-button href="https://github.com/vincechan/GreenButtonApp" target="_blank">View On Github</a>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+  </div>
 
   <mat-sidenav-container>
     <mat-sidenav #snav mode="push">
@@ -42,26 +57,30 @@
       </mat-card>
       <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-between" id="card-container" *ngIf="gbfile" style="margin-top:20px;">
         <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
-          <header><mat-icon>location_on</mat-icon> Location</header>
+          <header>
+            <mat-icon>location_on</mat-icon> Location</header>
           <content>{{ gbfile.location }}</content>
         </mat-card>
         <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
-          <header><mat-icon>date_range</mat-icon>Date Range</header>
+          <header>
+            <mat-icon>date_range</mat-icon>Date Range</header>
           <content>{{ gbfile.startDate | date : "mediumDate" }} - {{ gbfile.endDate | date : "mediumDate" }}</content>
         </mat-card>
         <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23" color="primary">
-            <header><mat-icon>power</mat-icon>Energy Usage</header>
-            <content>
-              <p>Total: {{ gbfile.totalUsage | number : '1.0-1' }} {{ gbfile.usageUnit }} </p>
-              <p>Avg Per Hour: {{ gbfile.avgUsagePerHour | number: '1.2-2' }} {{ gbfile.usageUnit }}</p>
-            </content>
-          </mat-card>
+          <header>
+            <mat-icon>power</mat-icon>Energy Usage</header>
+          <content>
+            <p>Total: {{ gbfile.totalUsage | number : '1.0-1' }} {{ gbfile.usageUnit }} </p>
+            <p>Avg Per Hour: {{ gbfile.avgUsagePerHour | number: '1.2-2' }} {{ gbfile.usageUnit }}</p>
+          </content>
+        </mat-card>
         <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
-          <header><mat-icon>attach_money</mat-icon>Cost</header>
+          <header>
+            <mat-icon>attach_money</mat-icon>Cost</header>
           <content>
             <div *ngIf="gbfile.hasCostData">
-                <p>Total: {{ gbfile.totalCost | currency }} </p>
-                <p>Avg Per Hour: {{ gbfile.avgCostPerHour | currency }} </p>
+              <p>Total: {{ gbfile.totalCost | currency }} </p>
+              <p>Avg Per Hour: {{ gbfile.avgCostPerHour | currency }} </p>
             </div>
             <div *ngIf="gbfile.hasCostData == false" style="color: red;">
               <mat-icon>error</mat-icon>file does not contain any cost data.
@@ -69,9 +88,9 @@
           </content>
         </mat-card>
         <mat-card class="info-card" fxFlex="100" fxFlex.gt-sm="23">
-            <header>Interval</header>
-            <content>{{ gbfile.interval / 60 }} minutes</content>
-          </mat-card>
+          <header>Interval</header>
+          <content>{{ gbfile.interval / 60 }} minutes</content>
+        </mat-card>
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
